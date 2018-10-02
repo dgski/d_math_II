@@ -33,3 +33,36 @@ def find_gcd(x: int, y: int) -> int:
 def gcd(a,b):
     '''Recursive application of Euclid's algorithm'''
     return a if (b % a == 0) else gcd(b % a, a)
+
+
+def egcd(a, b):
+
+    # ff a is zero, then by definition, x is zero and gcd is equal to b
+    if(a == 0): return (b,0,1)
+    
+    q = b // a
+    r = b % a
+    
+    # we are reaching to the future for these three values
+    # g = will be found by using r as a and a as b
+    # next_x = next_next_y - q * next_next_x
+    # next_y = next_next_x
+    # This will recur till the base case
+    g, next_x, next_y = egcd(r, a)
+
+    
+    # gcd = ax + by
+    # gcd = (b % a)(xn) + a(yn)
+    x = next_y - q * next_x
+    y = next_x
+
+    print(
+        "q = {} / {} = {}, r = {}, g = {}, x = {}, y = {}".format(b,a,q,r,g,x,y)
+    )
+
+    return (g, x, y)
+
+
+print(
+    egcd(675,210)
+)
