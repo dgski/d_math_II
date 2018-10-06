@@ -73,7 +73,7 @@ def find_mul_inverse(a: int,b: int) -> int:
     return egcd(a,b)[1] % b
 
 def dec_value(digits: list, base: int) -> int:
-    ''' Determine the decimal of the given number'''
+    ''' Determine the decimal value of the given number'''
     res: int = 0
     power: int = len(digits) - 1
     
@@ -99,3 +99,56 @@ def conv_dec_to_base(n: int, b: int) -> str:
 def digits_in_integer(n: int, b: int) -> int:
     ''' Determine the number of digits in given dec integer with the given base'''
     return round(log((n -1),b))
+
+
+# Fast Exponentation
+# Normally repeated multiplication is used, but that can be time consuming
+
+# Example
+# y = 53
+# b^y = ?
+# binary expansion of 53 = (110101)
+# b^y = b^(1*2^5) * b^(1*2^4) * b^(0*2^3) * b^(1*2^2) * b^(0*2^1) * b^(1*2^0)
+# b^y = b^(1*2^5) * b^(1*2^4) * b^(1*2^2) * b^(1*2^0)
+
+def slow_exponentation(x: int, y: int) -> int:
+    ''' A slow, iterative exponentation process'''
+
+    if y == 0: return 1
+
+    z: int = x
+    while y > 1:
+        z *= x
+        y -= 1
+    return z
+
+# Manual Example
+# 7 ^ 11
+# binary expansion of 11: (1011)
+# 7^11 = 7^(1*2^3) * 7^(0*2^2) * 7^(1*2^1) * 7^(1*2^0)
+# 7^11 = 7^(1*2^3) * 7^(1*2^1) * 7^(1*2^0)
+# # 7^11 = 7^8 * 7^2 * 7^1
+# 7^11 = 5764801 * 49 * 7
+# 7^11 = 1977326743
+
+def fast_exponentation(x: int, y: int) -> int:
+    '''Uses binary expansion to speed up the process of exponentation'''
+    result: int = 1
+    s: int = x
+    r: int = y
+
+    while r > 0:
+        if r % 2 == 1:
+            result *= s
+        s *= s
+        r = r // 2
+    return result
+
+def fast_exp(x: int, y: int, s: int = 1) -> int:
+    '''Recursive implementation of fast exponentation algorithm'''
+    if y == 0:      return 1
+    if y % 2:       return (x**s) * fast_exp(x, y//2, s*2)
+    else:           return fast_exp(x, y//2, s*2)
+
+# Modular Exponentation
+# ...
