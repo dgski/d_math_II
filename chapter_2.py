@@ -144,11 +144,54 @@ def fast_exponentation(x: int, y: int) -> int:
         r = r // 2
     return result
 
-def fast_exp(x: int, y: int, s: int = 1) -> int:
+def fast_exp(x: int, y: int, s: int = 0) -> int:
     '''Recursive implementation of fast exponentation algorithm'''
+    s = s if s else x
     if y == 0:      return 1
-    if y % 2:       return (x**s) * fast_exp(x, y//2, s*2)
-    else:           return fast_exp(x, y//2, s*2)
+    if y % 2:       return s * fast_exp(x, y//2, s*s)
+    else:           return fast_exp(x, y//2, s*s)
+
 
 # Modular Exponentation
-# ...
+
+def mod_exp(x: int, y: int, n: int, s: int = 0) -> int:
+    '''Recursive implementation of modular exponentation algorithm'''
+    s = s if s else x
+    if y == 0:      return 1
+    if y % 2:       return (s * fast_exp(x, y//2, s*s % n)) % n
+    else:           return fast_exp(x, y//2, s*s % n)
+
+assert(mod_exp(5,25,11) == (fast_exp(5,25) % 11))
+
+# 5^68 mod 7
+# binary expansion of 68: (1000100)
+# 5^68 = 5^(2^6) * 5(2^2)
+# 5^68 mod 7 = ((5^(2^6) mod 7) * (5(2^2) mod 7)) mod 7
+# 5^68 mod 7 = (2*2) mod 7 = 4
+
+
+def create_rsa_keys():
+
+    p = 509             # generate first prime number
+    q = 733             # generate second prime number
+
+    N = p*q             # determine N
+    z = (p-1)*(q-1)     # determine phi
+
+    print("p={}, q={}, N={}, z={}".format(p,q,N,z))
+
+    # find integer e so that gcd(e,z) == 1
+    e = 2
+    while True:
+        if gcd(e,z) == 1:
+            break
+        e += 1
+
+    print(e)
+    g,x,y = egcd(e,z)
+
+    print(y)
+
+
+create_rsa_keys()  
+
