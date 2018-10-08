@@ -1,4 +1,8 @@
 from math import sqrt,log
+import random
+import sys
+
+sys.setrecursionlimit(100000)
 
 def bf_is_prime(n: int) -> bool:
     ''' Brute force check if number is prime'''
@@ -9,10 +13,15 @@ def bf_is_prime(n: int) -> bool:
 
 def bf_is_prime_2(n: int) -> bool:
     ''' Brute force check if number is prime, made more efficient by limiting check to the sqrt of n'''
-    for x in range(2,int(sqrt(n))):
+    for x in range(2, int(sqrt(n))):
         if n % x == 0:
             return False
     return True
+
+def fermat_is_prime(n: int) -> bool:
+    if n == 2:      return True
+    if not (n & 1): return False
+    else:            return mod_exp(2, n-1, n) == 1
 
 def find_gcd(x: int, y: int) -> int:
     ''' Uses Euclid's algorithm to determine the greatest common denominator. '''
@@ -158,8 +167,9 @@ def mod_exp(x: int, y: int, n: int, s: int = 0) -> int:
     '''Recursive implementation of modular exponentation algorithm'''
     s = s if s else x
     if y == 0:      return 1
-    if y % 2:       return (s * fast_exp(x, y//2, s*s % n)) % n
-    else:           return fast_exp(x, y//2, s*s % n)
+    if x == 0:      return 0
+    if y % 2:       return (s * mod_exp(x, y//2, n, s*s % n)) % n
+    else:           return mod_exp(x, y//2, n, s*s % n)
 
 assert(mod_exp(5,25,11) == (fast_exp(5,25) % 11))
 
@@ -170,28 +180,107 @@ assert(mod_exp(5,25,11) == (fast_exp(5,25) % 11))
 # 5^68 mod 7 = (2*2) mod 7 = 4
 
 
-def create_rsa_keys():
+def join_digits(input: list, digits_per: int):
 
-    p = 509             # generate first prime number
-    q = 733             # generate second prime number
+    result = 0
+
+    m: int = 1
+    z: int =  10 ** digits_per
+
+    for c in reversed(input):
+        result += c * m
+        m *= z
+
+    return result
+
+
+
+def generate_candidate() -> int: 
+    # Generate Random Number
+    r: int = random.getrandbits(1024)
+    # Ensure Number is odd and the right length
+    r |= 1
+    r |= (1 << 1024)
+
+    return r
+
+def generate_large_prime_number() -> int:
+
+    n: int = generate_candidate()
+
+    while not fermat_is_prime(n):
+        n = generate_candidate()
+    
+    return n
+
+
+def create_rsa_keys() -> dict:
+
+    p = generate_large_prime_number()
+    q = generate_large_prime_number()
 
     N = p*q             # determine N
-    z = (p-1)*(q-1)     # determine phi
+    phi = (p-1)*(q-1)     # determine phi
 
-    print("p={}, q={}, N={}, z={}".format(p,q,N,z))
+    # find integer e so that gcd(e,phi) == 1
+    # e and phi must be relatively prime
+    e = 459173
 
-    # find integer e so that gcd(e,z) == 1
-    e = 2
-    while True:
-        if gcd(e,z) == 1:
-            break
-        e += 1
+    # Find the multiplicative inverse of e % phi
+    # An integer such that ed (mod z) == 1
+    _,d,_ = egcd(e,phi)
 
-    print(e)
-    g,x,y = egcd(e,z)
+    if d < 0:
+        return create_rsa_keys()
 
-    print(y)
+    return {
+        'N': N,
+        'e': e,
+        'd': d
+    }
+
+def encrypt(plaintext: str, keys: dict):
+    ''' Using the RSA encryption scheme, encrypt the following message with the following public keys'''
+    
+    # c = m^e mod N
+    msg: int = 0
+    m: int = 1
+
+    for c in reversed(plaintext):
+        msg += ord(c) * m
+        m *= 100
+
+    return mod_exp(msg, keys["e"], keys["N"])
 
 
-create_rsa_keys()  
+def decrypt(ciphertext: int, keys: dict):
+    ''' Using the RSA encryption scheme, decrypt the following message with the following public keys'''
+    
+    # m = c^d mod N
+    value : int = mod_exp(ciphertext, keys["d"], keys["N"])
+    m: int = 100
+    msg: list = []
+
+    while value:
+        msg.append(chr( value % m ))
+        value //= m 
+
+    return "".join(reversed(msg))
+
+
+
+
+my_keys = create_rsa_keys()  
+
+print(my_keys)
+
+#print(encrypt('O', {'N': 1829, 'e': 859}))
+
+
+encrypted_msg = encrypt('DA',my_keys)
+decrypted_msg = decrypt(encrypted_msg, my_keys)
+
+print(
+    decrypted_msg
+)
 
