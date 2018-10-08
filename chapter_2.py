@@ -2,7 +2,7 @@ from math import sqrt,log
 import random
 import sys
 
-sys.setrecursionlimit(100000)
+sys.setrecursionlimit(2000000)
 
 def bf_is_prime(n: int) -> bool:
     ''' Brute force check if number is prime'''
@@ -21,7 +21,7 @@ def bf_is_prime_2(n: int) -> bool:
 def fermat_is_prime(n: int) -> bool:
     if n == 2:      return True
     if not (n & 1): return False
-    else:            return mod_exp(2, n-1, n) == 1
+    else:            return fast_modular_exponentation(2, n-1, n) == 1
 
 def find_gcd(x: int, y: int) -> int:
     ''' Uses Euclid's algorithm to determine the greatest common denominator. '''
@@ -153,6 +153,20 @@ def fast_exponentation(x: int, y: int) -> int:
         r = r // 2
     return result
 
+
+def fast_modular_exponentation(x: int, y: int, n: int) -> int:
+    '''Uses binary expansion to speed up the process of exponentation with modulo'''
+    result: int = 1
+    s: int = x
+    r: int = y
+
+    while r > 0:
+        if r % 2 == 1:
+            result = result * s % n
+        s = s * s % n
+        r = r // 2
+    return result
+
 def fast_exp(x: int, y: int, s: int = 0) -> int:
     '''Recursive implementation of fast exponentation algorithm'''
     s = s if s else x
@@ -250,14 +264,14 @@ def encrypt(plaintext: str, keys: dict):
         msg += ord(c) * m
         m *= 100
 
-    return mod_exp(msg, keys["e"], keys["N"])
+    return fast_modular_exponentation(msg, keys["e"], keys["N"])
 
 
 def decrypt(ciphertext: int, keys: dict):
     ''' Using the RSA encryption scheme, decrypt the following message with the following public keys'''
     
     # m = c^d mod N
-    value : int = mod_exp(ciphertext, keys["d"], keys["N"])
+    value : int = fast_modular_exponentation(ciphertext, keys["d"], keys["N"])
     m: int = 100
     msg: list = []
 
