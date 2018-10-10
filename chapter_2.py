@@ -207,7 +207,7 @@ def create_rsa_keys() -> dict:
 
     # find integer e so that gcd(e,phi) == 1
     # e and phi must be relatively prime
-    e = 2
+    e = 65537
     while gcd(e,phi) != 1:
         e += 1
 
