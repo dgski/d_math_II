@@ -2,7 +2,8 @@ from math import sqrt,log
 import random
 import sys
 
-sys.setrecursionlimit(2000000)
+# To enable recursive functions
+sys.setrecursionlimit(100000)
 
 def bf_is_prime(n: int) -> bool:
     ''' Brute force check if number is prime'''
@@ -19,12 +20,13 @@ def bf_is_prime_2(n: int) -> bool:
     return True
 
 def fermat_is_prime(n: int) -> bool:
+    ''' Check if number is prime using fermat's algorithm'''
     if n == 2:      return True
     if not (n & 1): return False
-    else:            return fast_modular_exponentation(2, n-1, n) == 1
+    else:            return mod_exp(2, n-1, n) == 1
 
-def find_gcd(x: int, y: int) -> int:
-    ''' Uses Euclid's algorithm to determine the greatest common denominator. '''
+def gcd_it(x: int, y: int) -> int:
+    ''' Uses Euclid's algorithm to determine the greatest common denominator. Iterative. '''
     if y < x:
         x,y = y,x
 
@@ -42,6 +44,7 @@ def gcd(a: int, b: int) -> int:
     return a if (b % a == 0) else gcd(b % a, a)
 
 def egcd(a: int, b: int) -> tuple:
+    ''' Recursive application of Euclid's algorithm, returns '''
 
     # ff a is zero, then by definition, x is zero and gcd is equal to b
     if(a == 0): return (b,0,1)
@@ -105,10 +108,6 @@ def conv_dec_to_base(n: int, b: int) -> str:
 
     return "".join(res)
 
-def digits_in_integer(n: int, b: int) -> int:
-    ''' Determine the number of digits in given dec integer with the given base'''
-    return round(log((n -1),b))
-
 
 # Fast Exponentation
 # Normally repeated multiplication is used, but that can be time consuming
@@ -140,7 +139,7 @@ def slow_exponentation(x: int, y: int) -> int:
 # 7^11 = 5764801 * 49 * 7
 # 7^11 = 1977326743
 
-def fast_exponentation(x: int, y: int) -> int:
+def fast_exp_it(x: int, y: int) -> int:
     '''Uses binary expansion to speed up the process of exponentation'''
     result: int = 1
     s: int = x
@@ -150,20 +149,6 @@ def fast_exponentation(x: int, y: int) -> int:
         if r % 2 == 1:
             result *= s
         s *= s
-        r = r // 2
-    return result
-
-
-def fast_modular_exponentation(x: int, y: int, n: int) -> int:
-    '''Uses binary expansion to speed up the process of exponentation with modulo'''
-    result: int = 1
-    s: int = x
-    r: int = y
-
-    while r > 0:
-        if r % 2 == 1:
-            result = result * s % n
-        s = s * s % n
         r = r // 2
     return result
 
@@ -187,6 +172,21 @@ def mod_exp(x: int, y: int, n: int, s: int = 0) -> int:
 
 assert(mod_exp(5,25,11) == (fast_exp(5,25) % 11))
 
+
+def mod_exp_it(x: int, y: int, n: int) -> int:
+    '''Uses binary expansion to speed up the process of exponentation with modulo'''
+    result: int = 1
+    s: int = x
+    r: int = y
+
+    while r > 0:
+        if r % 2 == 1:
+            result = result * s % n
+        s = s * s % n
+        r = r // 2
+    return result
+
+# modular exponentation example
 # 5^68 mod 7
 # binary expansion of 68: (1000100)
 # 5^68 = 5^(2^6) * 5(2^2)
@@ -194,64 +194,51 @@ assert(mod_exp(5,25,11) == (fast_exp(5,25) % 11))
 # 5^68 mod 7 = (2*2) mod 7 = 4
 
 
-def join_digits(input: list, digits_per: int):
-
-    result = 0
-
-    m: int = 1
-    z: int =  10 ** digits_per
-
-    for c in reversed(input):
-        result += c * m
-        m *= z
-
-    return result
-
-
-
-def generate_candidate() -> int: 
-    # Generate Random Number
-    r: int = random.getrandbits(1024)
-    # Ensure Number is odd and the right length
-    r |= 1
-    r |= (1 << 1024)
-
-    return r
-
-def generate_large_prime_number() -> int:
-
-    n: int = generate_candidate()
-
-    while not fermat_is_prime(n):
-        n = generate_candidate()
-    
-    return n
-
+# RSA Cryptography
 
 def create_rsa_keys() -> dict:
+    ''' Function which randomly generates RSA encryption keys'''
 
-    p = generate_large_prime_number()
-    q = generate_large_prime_number()
+    p = generate_large_prime_number(1024)
+    q = generate_large_prime_number(1024)
 
     N = p*q             # determine N
     phi = (p-1)*(q-1)     # determine phi
 
     # find integer e so that gcd(e,phi) == 1
     # e and phi must be relatively prime
-    e = 459173
+    e = 2
+    while gcd(e,phi) != 1:
+        e += 1
 
     # Find the multiplicative inverse of e % phi
-    # An integer such that ed (mod z) == 1
+    # An integer such that de (mod phi) == 1
     _,d,_ = egcd(e,phi)
 
+    # d must be positive
     if d < 0:
         return create_rsa_keys()
 
-    return {
-        'N': N,
-        'e': e,
-        'd': d
-    }
+    return {'N': N, 'e': e, 'd': d}
+
+def generate_candidate(bits: int) -> int:
+    ''' Generates a number that is likely to be prime'''
+    # Generate Random Number
+    r: int = random.getrandbits(bits)
+    # Ensure Number is odd and the right length
+    r |= 1
+    r |= (1 << bits)
+
+    return r
+
+def generate_large_prime_number(bits: int) -> int:
+    ''' Generates a large prime number consisting of the given number of bits'''
+    n: int = generate_candidate(bits)
+
+    while not fermat_is_prime(n):
+        n = generate_candidate(bits)
+    
+    return n
 
 def encrypt(plaintext: str, keys: dict):
     ''' Using the RSA encryption scheme, encrypt the following message with the following public keys'''
@@ -264,14 +251,14 @@ def encrypt(plaintext: str, keys: dict):
         msg += ord(c) * m
         m *= 100
 
-    return fast_modular_exponentation(msg, keys["e"], keys["N"])
+    return mod_exp(msg, keys["e"], keys["N"])
 
 
 def decrypt(ciphertext: int, keys: dict):
     ''' Using the RSA encryption scheme, decrypt the following message with the following public keys'''
     
     # m = c^d mod N
-    value : int = fast_modular_exponentation(ciphertext, keys["d"], keys["N"])
+    value : int = mod_exp(ciphertext, keys["d"], keys["N"])
     m: int = 100
     msg: list = []
 
@@ -281,20 +268,8 @@ def decrypt(ciphertext: int, keys: dict):
 
     return "".join(reversed(msg))
 
-
-
-
+# RSA TEST
 my_keys = create_rsa_keys()  
-
-print(my_keys)
-
-#print(encrypt('O', {'N': 1829, 'e': 859}))
-
-
-encrypted_msg = encrypt('DA',my_keys)
+encrypted_msg = encrypt('DAVID',my_keys)
 decrypted_msg = decrypt(encrypted_msg, my_keys)
-
-print(
-    decrypted_msg
-)
-
+print(decrypted_msg)
