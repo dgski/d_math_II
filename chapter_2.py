@@ -199,11 +199,20 @@ def mod_exp_it(x: int, y: int, n: int) -> int:
 def create_rsa_keys() -> dict:
     ''' Function which randomly generates RSA encryption keys'''
 
+
+    # 1. Generate two large prime numbers
     p = generate_large_prime_number(1024)
     q = generate_large_prime_number(1024)
 
+    # 2. Calculate N
     N = p*q             # determine N
+    # Note: N is very difficult to factor if you  don't know p or q
+
+    # 3. Determine phi
     phi = (p-1)*(q-1)     # determine phi
+    # phi(N) represents the number of primes leading up to N 
+
+    # 4. Determine 2 Integers (e,d) so  that e*d = 1 mod(phi(N))
 
     # find integer e so that gcd(e,phi) == 1
     # e and phi must be relatively prime
@@ -257,7 +266,45 @@ def encrypt(plaintext: str, keys: dict):
 def decrypt(ciphertext: int, keys: dict):
     ''' Using the RSA encryption scheme, decrypt the following message with the following public keys'''
     
+    # Proof:
     # m = c^d mod N
+    # Substitute for c:
+    # m = (m^e mod N)^d mod N
+    # Using characteristics of modular exponentation:
+    # m = (m^e)^d mod N
+    # m = m^ed mod N  <-- Therefore, We Need to Prove this equation holds true
+    # Note: if e*d == 1 we get back our original 'm', m^(ed) == m^1
+    # Recall: e*d = 1 mod( phi(N) )
+    # Thus there exists an integer 'k' so that:
+    # e*d = 1 + k( phi(N) )
+
+    # Euler's Theorum (gcd(m,N) == 1):
+    # m^ed = m^(1 + k( phi(N) ))
+    #      = m * (m^phi(N))^k
+    #      = m * 1 mod (N)
+    # m^ed = m mod (N)
+
+    # Other:
+    # m^ed = m^ed
+    # m^1  = m^(1 + k( phi(N) ))
+    #      = m * m^(k( phi(N) )
+    #      = m * m^(k * (p - 1)(q - 1))
+    # Using Fermat's little theorum: 
+    #      = m * (m^(p - 1))^(k*(q - 1))
+    #      = m * (m^(p - 1)) mod (k*(q - 1))
+    #      = m * (m^(p - 1))
+    #      = m * 1 mod (p)
+    #      = m mod p
+    # Conversely:
+    #      = m * 1 mod (q)
+    #      = m mod q
+    # Chinese Remainder Theorum:
+    #  m^ed = m mod (p*q)
+    #  m^ed = m mod (N)
+    # Symmetric Property:
+    #  m = m^ed mod (N)
+
+
     value : int = mod_exp(ciphertext, keys["d"], keys["N"])
     m: int = 100
     msg: list = []
