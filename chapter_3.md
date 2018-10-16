@@ -36,6 +36,7 @@ ak = k^3, for k = 1,2,3,4
 (4)Sigma(k=1) = 1^3 + 2^3 + 3^3 + 4^3 = 100
 
 |-----------|   |-------------------------|
+
 summation form      expanded form
 
 **Remember:**
