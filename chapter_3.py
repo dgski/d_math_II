@@ -65,4 +65,7 @@ seq_sum(0,100,lambda k: 3*(1.1)**k)
 (18)Sigma(j=-2)(2^j) == (17)Sigma(j=-2)(2^j) + (2^18)
 (n)Sigma(k=0)(k^2 - 4k + 1) == (n-1)Sigma(k=0)(k^2 - 4k + 1) + (n^2 -4n + 1)
 (m+2)Sigma(k=0)(k^2 - 4k + 1) == (m+1)Sigma(k=0)(k^2 - 4k + 1) + (m+2)^2 - 4*(m+2) + 1
+
+3 new cars per month, a0 = 23. Cars after 8 months (a8):
+(8)Sigma(k=0)(23 + 3k) = 47
 '''

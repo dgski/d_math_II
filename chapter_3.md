@@ -67,3 +67,18 @@ summation form      expanded form
     i^3
 
 = (n+2)Sigma(i=3)(i^3)
+
+## Closed Forms of Summations
+
+**Arithmatic Sequence:**
+(n-1)Sigma(k=0)(a + ak) = an + (d(n-1) * n)/2
+
+**Geometric Sequence**
+(n-1)Sigma(k=0)(a*r^k) = a(r^n - 1)/(r - 1)
+
+## Induction
+
+An inductive proof establishes that some statement parameterized by n is true, for any positive integer n.
+
+1. **Base Case**
+2. **Inductive Step**
