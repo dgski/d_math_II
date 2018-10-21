@@ -82,3 +82,41 @@ An inductive proof establishes that some statement parameterized by n is true, f
 
 1. **Base Case**
 2. **Inductive Step**
+
+1. Q(1) is true
+2. Q(k) implies Q(k+1)
+
+## Inductive proof of a recurrence relation
+
+**Define the Sequence as:**
+
+h(0) = 7
+h(n) = (h(n-1))^3
+
+**Then for any n >= 0:**
+
+h(n) = 7^(3^n)
+
+**Proof**
+
+By induction on n.
+
+**Base Case**
+
+We must show that n(0) = 7^(3^0)
+Since 7 = 7^(1), the theorum holds for n(0).
+
+**Inductive Step**
+
+Supposed that for any integer k >= 0,
+h(k) = 7^(3^k), Then we will show that:
+h(k+1) =  7^(3^(k+1))
+
+h(k+1) = h((k+1)-1)^3
+       = h(k)^3
+       = (7^(3^k))^3
+       = (7^3*(3^k))
+       = 7^(3 * 3^k)
+       = 7^(3^(k+1))
+
+Therefore h(k+1) = 7^(3^n)
