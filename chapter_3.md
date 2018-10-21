@@ -120,3 +120,18 @@ h(k+1) = h((k+1)-1)^3
        = 7^(3^(k+1))
 
 Therefore h(k+1) = 7^(3^n)
+
+## Strong Induction
+
+**Base Case**
+
+S(a),S(a+1),...,S(b) are true
+
+**Inductive Step**
+
+For all k => b, if 
+S(a) ^ S(a+1)^,...,^S(k) is true then S(k+1) is also true
+
+# Well-ordering principle
+
+**well-ordering principle** says that any non-empty subset of the non-negative integers has a smallest element.
