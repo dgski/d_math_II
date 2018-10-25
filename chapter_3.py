@@ -69,3 +69,14 @@ seq_sum(0,100,lambda k: 3*(1.1)**k)
 3 new cars per month, a0 = 23. Cars after 8 months (a8):
 (8)Sigma(k=0)(23 + 3k) = 47
 '''
+
+def fac(n):
+    return n* fac(n-1) if n else 1
+
+def g(n):
+    if n == 0:  return 0
+    else:       return g(n-1) + n**3
+
+def h(n):
+    if n == 0:  return 1
+    else:       return (n**2 + 1) * h(n-1)
