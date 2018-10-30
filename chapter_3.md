@@ -132,6 +132,27 @@ S(a),S(a+1),...,S(b) are true
 For all k => b, if 
 S(a) ^ S(a+1)^,...,^S(k) is true then S(k+1) is also true
 
-# Well-ordering principle
+## Well-ordering principle
 
 **well-ordering principle** says that any non-empty subset of the non-negative integers has a smallest element.
+
+## Recursive Sets
+B^k, where B={0,1} is the set of all binary strings of length k.
+B^* is the set of all binary strings with no length restriction.
+lambda - is the empty string whose length is zero.
+B^0 is the lenghth of all binary strings of length 0, therefore B^0 - {lambda}
+
+**B^* can be defined as an infinite union:**
+
+B^* = B^0 u B^1 u B^2 u ...
+
+**Or recursively:**
+
+base case: lambda is an element of B^*
+recursive rule: if x is an element of B^* then x0 is an element of B^*
+, x1 is an element of B^*.
+
+**Components of a recursive definition of a set**
+1. A basis states that one of more specifix elements are in the set.
+2. A recursive rule shows how to construct larger elements in the set from elements already know to be in the set.
+3. An exclusion statement staest hat an element is in the set only if it is given in the basis or can be built by applying the recursive rules repeatedly to elements given in the basis.

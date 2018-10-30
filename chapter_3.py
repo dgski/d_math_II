@@ -80,3 +80,16 @@ def g(n):
 def h(n):
     if n == 0:  return 1
     else:       return (n**2 + 1) * h(n-1)
+
+def bin_set(n: int) -> set:
+    ''' Given a length, n, return the set of all binary strings of that length.'''
+    if n == 0:      return {''}
+    else:           return  \
+                    {i+b for i in bin_set(n-1) for b in ('1','0')}
+
+def alpha_set(n: int) -> set:
+    ''' Given a length, n, return the set of all lowercase alphabetical strings of that length'''
+    if n == 0:      return {''}
+    else:
+        return \
+        {i+chr(b) for i in alpha_set(n-1) for b in range(97,123)}
