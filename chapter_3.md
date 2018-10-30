@@ -156,3 +156,9 @@ recursive rule: if x is an element of B^* then x0 is an element of B^*
 1. A basis states that one of more specifix elements are in the set.
 2. A recursive rule shows how to construct larger elements in the set from elements already know to be in the set.
 3. An exclusion statement staest hat an element is in the set only if it is given in the basis or can be built by applying the recursive rules repeatedly to elements given in the basis.
+
+## Recursive definition for perfect Binary trees
+
+base: a single vertex with no edges is a perfect binary tree. Root is only vertex in tree.
+
+recursive rule: if T is a perfect binary tree, then a new perfect binary tree T' can be built by taking two copies of T, adding a new vertex v and adding edges between v and the roots of each copy of T. The new vertex v is the root of T'.

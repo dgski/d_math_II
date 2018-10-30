@@ -93,3 +93,35 @@ def alpha_set(n: int) -> set:
     else:
         return \
         {i+chr(b) for i in alpha_set(n-1) for b in range(97,123)}
+
+def rec_set(n: int, s: set) -> set:
+    ''' Given a length, n, and a set,s, return the set of all strings with length n composed of the elements within s.'''
+    if n == 0:      return {''}
+    else:
+        return \
+        {i+x for i in rec_set(n-1,s) for x in s}
+
+def perms(n: int, s: set) -> set:
+    ''' Given a length, n, and a set, s, return a set of all permunations of the given with with length, s.'''
+    if n == 0:      return {''}
+    else:
+        return \
+        {i+x for i in perms(n-1,s) for x in s if not x in i}
+
+class Node:
+    ''' Simple Binary Tree Node'''
+    def __init__(self, left = None, right = None):
+        self.left = left
+        self.right = right
+    def __str__(self, pre = "") -> str:
+        res = pre + "<Node>\n"
+        if self.left:
+            res += self.left.__str__(pre+"    ")
+        if self.right:
+            res += self.right.__str__(pre+"    ")
+        return res
+
+def perf_bin_tree(n: int) -> Node:
+    ''' Given an integer, n, return a perfect binary tree of that depth.'''
+    if n == 1:      return Node()
+    else:           return Node(perf_bin_tree(n-1),perf_bin_tree(n-1))
