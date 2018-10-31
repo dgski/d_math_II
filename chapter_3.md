@@ -162,3 +162,26 @@ recursive rule: if x is an element of B^* then x0 is an element of B^*
 base: a single vertex with no edges is a perfect binary tree. Root is only vertex in tree.
 
 recursive rule: if T is a perfect binary tree, then a new perfect binary tree T' can be built by taking two copies of T, adding a new vertex v and adding edges between v and the roots of each copy of T. The new vertex v is the root of T'.
+
+- **Full Binary Tree:** A binary tree is full if every node has 0 or 2 children.
+```
+         18
+       /    \   
+     15      20    
+    /  \       
+   40   50   
+  /  \
+ 30  50
+```
+
+- **Perfect Binary Tree:** A binary tree is perfect when all internal nodes have 2 children and all leaves are at the same level.
+```
+           18
+       /       \  
+     15         30  
+    /  \        /  \
+  40    50    100   40
+```
+
+## Recursive/Inductive Algorithms
+

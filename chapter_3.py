@@ -125,3 +125,14 @@ def perf_bin_tree(n: int) -> Node:
     ''' Given an integer, n, return a perfect binary tree of that depth.'''
     if n == 1:      return Node()
     else:           return Node(perf_bin_tree(n-1),perf_bin_tree(n-1))
+
+def three_seventeen(n: int) -> set:
+    '''3.17 practice problem'''
+    if n == 1:  return {'','a'}
+    else:
+        n = three_seventeen(n-1)
+        return n.union({i+x for i in n for x in {'a','b'}})
+
+def power_set(A) -> set:
+    #todo
+    return {}
