@@ -134,5 +134,32 @@ def three_seventeen(n: int) -> set:
         return n.union({i+x for i in n for x in {'a','b'}})
 
 def power_set(A) -> set:
-    #todo
-    return {}
+    if len(A) == 0 : return {frozenset()}
+
+    A1 = set(A)
+    a = A1.pop()
+
+    P = power_set(A1)
+    P1 = set(P)
+
+    for S in P1:
+        P.add(S.union({a}))
+
+    return P
+
+def sum_of_cubes(j):
+    ''' Return the sum of a sequence of cubes up to j'''
+    if j == 1:      return 1
+    else:           return j**3 + sum_of_cubes(j-1)
+
+def product(a,b):
+    '''Recursive implementation of multiplication'''
+    return \
+    a + product(a,b-1) if b else 0
+
+def test_318(r,n):
+    if n == 0:      return r
+    else:           return \
+                    (test_318(r,n-1)) ** 2
+
+print(power_set({'a','b','c'}))

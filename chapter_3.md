@@ -183,5 +183,17 @@ recursive rule: if T is a perfect binary tree, then a new perfect binary tree T'
   40    50    100   40
 ```
 
-## Recursive/Inductive Algorithms
+## Simple Recurrence Relations
 
+**linear:** each number in a sequence is a linear combination of numbers that occur earlier in the sequence.
+
+**homogenous**: no additional terms other than fn
+
+The **characteristic equation** for a linear recurrence relation can be used to solve for x, the base of the exponent in the solution.
+
+recurrence relation (fib): f(n) = f(n-1) + f(n-2)
+
+to solve, assume:
+f(n) = x^n
+f(n-1) = x^(n-1)
+f(n-2) = x^(n-2)
