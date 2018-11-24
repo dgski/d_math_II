@@ -98,3 +98,51 @@ C(n,r) = n! // r! *  (n-r)!
 
 (n) == (n  )
 (r)    (n-r)
+
+# Permutations With Repitition
+
+If a sequence has items that repeat, you must apply the formulta for counting permutations with repetition:
+
+**Example:**
+
+How many ways to scramble **MISSISSIPPI**?
+
+P: 11 choose 2
+I: 9 choose 4
+S: 5 choose 4
+M: 1 choose 1
+
+= (11! / 2!9!) * (9!/ 4!5!) * (5! / 4!1!) * (1! / 1!0!)
+= 11! / 2!4!4!1!
+
+# Counting By Complement
+             _
+|P| = |S| = |P|
+
+# Multisets
+
+A **multiset** is a collection that can have multiple instances of the same kind of item. Just as with sets, order of the elements does matter.
+
+## Formula
+
+(n + m - 1)
+(m - 1)
+
+(n + m -1)! / (m-1)!n!
+
+n = number of objects
+m = the number of varieties of objects
+
+# Generating permutations and combinations
+
+**n-tuple** is an ordered st of n items.
+**permutations** are sets,sequences, or series where order matters.
+**combinations** are subsets where order does not matter.
+
+(1,2) > (1,1)
+
+## Recursive generation of Permutations
+
+[1,2,3] ->  [1] + perms([2,3]),
+            [2] + perms([1,3]),
+            [3] + perms([1,2])

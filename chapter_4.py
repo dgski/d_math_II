@@ -41,3 +41,77 @@ def fact(n: int):
 def n_choose_r(n: int, r: int) -> int:
     '''Given n and r, return the number of ways to choose r from a set of size n.'''
     return fact(n) // (fact(r) * fact(n-r))
+
+def num_of_perms_in_string(s: str) -> int:
+    '''Return the number of ways to permute the characters in a string'''
+    l = {}
+    for c in s:
+        if c in l:
+            l[c] += 1
+        else:
+            l[c] = 1
+    
+    num = len(s)
+    den = 1
+    for _,v in l.items():
+        den *= fact(v)
+    return fact(num) // den
+
+
+def count_multisets(l: list) -> int:
+    s = set(l)
+    n = len(l)
+    m = len(s)
+    return  n_choose_r(n + m - 1, m-1)
+
+def count_multisets_2(n: int, m: int) -> int:
+    return n_choose_r(n + m - 1, m-1)
+
+def next_perm(p):
+    n = list(p)
+    x = 0
+
+    i = len(n) - 1
+    while 0 < i:
+        if((n[i-1]) < n[i]):
+            x = i-1
+            break
+        i -= 1
+
+    swap = n.index(min((i for i in n[x+1:] if i > n[x])))
+
+    n[swap],n[x] = n[x],n[swap]
+    return n[:x+1] + sorted(n[x+1:])
+
+def gen_perms(n):
+    perms = []
+    p,e = list(range(n)),list(reversed(range(n)))
+    perms.append(p)
+
+    while p != e:
+        p = next_perm(p)
+        perms.append(p)
+
+    return perms
+
+def gen_perms_rec(s):
+    if len(s) == 2: return [s,[s[1],s[0]]]
+    else:           return [[s[i]] + x for i in range(len(s)) for x in gen_perms_rec(s[:i]+s[i+1:])]
+
+def next_subset(n,s):
+    for i,j in zip( reversed(range(1,n+1)), reversed(s)):
+        if i < 
+
+
+def gen_lex_subsets(r,n):
+    subsets = []
+    s = list(range(1,r+1))
+    f = list(range(n-r+1,n+1))
+    subsets.append(s)
+
+    while s != f:
+        s = next_subset(n,s)
+        subsets.append(s)
+    return subsets
+
+print(next_subset(10,[1,2,3,4,5]))
