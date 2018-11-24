@@ -90,3 +90,11 @@ C(n,r) = n! / r! * (n-r)!
 P(n,n) = n!
 P(n,r) = n! // (n-r)!
 C(n,r) = n! // r! *  (n-r)!
+
+# Counting Subsets
+
+(n) = n choose r
+(r)
+
+(n) == (n  )
+(r)    (n-r)
