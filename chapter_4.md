@@ -52,3 +52,41 @@ f(Y) = y <-> f^-1(y) = Y
 Let X and Y be finite sets. The function f:X->Y is a k-to-1 correspondence if for every yEY, there are exactly k different x E X such that f(x) = y
 
 f(can_id) = pack_id
+
+## The generalized product rule
+
+|S| = n1 * n2 * nk
+
+# Permutations and Combinations
+
+**permutations**: arrangements
+
+**r-permutation**: permutation of a subset
+"permutations of n things taken r at a time"
+
+permutations: order matters
+combinations: order does not matter
+
+## The number of r-permutations from a set with n elements
+
+P(n,r) = n * (n-1)...(n-r+1) = n!/(n-r)!
+
+**Ex:**
+P(n,3) = n * (n-1) * (n-2)
+P(4,3) = 3 * (3-1) * (3-2)
+       = 4 * 3 * 2
+       = 24
+
+## The number of permuations of a set
+
+P(n) = n!
+
+## The number of r-subset (combinations)
+
+C(n,r) = n! / r! * (n-r)!
+
+## Summary
+
+P(n,n) = n!
+P(n,r) = n! // (n-r)!
+C(n,r) = n! // r! *  (n-r)!
