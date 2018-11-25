@@ -141,8 +141,27 @@ m = the number of varieties of objects
 
 (1,2) > (1,1)
 
+To generate the permutations of a given set. Generate the first sequence in lexographic order, and continually generate the next one, until you generate the last one.
+
+Generate: (1,2,3) to (3,2,1)
+
+To generate the r-subsets of a given set. Generate the first set in lexographic order (Using the absolute smallest elements) and continually generate the next one until you generate the last one (absolute largest elements).
+
+Using {1,2,3,4,5}
+
+Generate: {1,2,3} to {3,4,5}
+
+
 ## Recursive generation of Permutations
 
 [1,2,3] ->  [1] + perms([2,3]),
             [2] + perms([1,3]),
             [3] + perms([1,2])
+
+# Advanced Counting Techniques
+
+# Inclusion-Exclusion principle
+
+Let A and B be two finite sets, then |A u B| = |A| + |B| - |A n B|
+
+For three sets: |A u B u C| = |A| + |B| + |C| - |A n N| - |B n C| - |A n C| + |A n B n C|

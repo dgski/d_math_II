@@ -126,4 +126,30 @@ def gen_lex_subsets(r,n):
         subsets.append(s)
     return subsets
 
-print(gen_lex_subsets(2,3))
+def gen_div_by(d,n):
+    i = 1
+    while i <= n:
+        if i % d == 0:
+            yield i
+        else:
+            yield 0
+        i += 1
+
+def find_common_235():
+    u = 0
+    for i,j,k in zip(   gen_div_by(2,30),   \
+                        gen_div_by(3,30),   \
+                        gen_div_by(5,30)    ):
+
+        if i and j and k:   u += 1
+        if i and j:         u -= 1
+        if i and k:         u -= 1
+        if j and k:         u -= 1
+        if i:               u += 1
+        if j:               u += 1
+        if k:               u += 1
+
+    return u
+
+for i in zip(*[["a","b"],[1,2]]):
+    print(i)
