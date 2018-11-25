@@ -99,9 +99,21 @@ def gen_perms_rec(s):
     else:           return [[s[i]] + x for i in range(len(s)) for x in gen_perms_rec(s[:i]+s[i+1:])]
 
 def next_subset(n,s):
-    for i,j in zip( reversed(range(1,n+1)), reversed(s)):
-        if i < 
+    f = list(s)
+    n = list(range(1,n+1))
+    x = 0
+    for i in range(1,len(f)+1):
+        if f[-i] < n[-i]:
+            x = len(f)-i
+            break
+    f[x] += 1
+    x += 1
 
+    while x < len(f):
+        f[x] = f[x-1] + 1
+        x += 1
+
+    return f
 
 def gen_lex_subsets(r,n):
     subsets = []
@@ -114,4 +126,4 @@ def gen_lex_subsets(r,n):
         subsets.append(s)
     return subsets
 
-print(next_subset(10,[1,2,3,4,5]))
+print(gen_lex_subsets(2,3))
