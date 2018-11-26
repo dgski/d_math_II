@@ -13,7 +13,7 @@ Let A1,A2,...,An be finite sets. Then,
 
 If E is a set of chracters(called an alphabet) then E^n if the set of all strings of length n whose characters come from the set E.
 
-if E = {'A','B'}, then E*3 is a set of all strings with 3 letters.
+if E = {'A','B'}, then E^3 is a set of all strings with 3 letters.
 
 The string 'ABA' is an example element in E^6.
 
@@ -165,3 +165,9 @@ Generate: {1,2,3} to {3,4,5}
 Let A and B be two finite sets, then |A u B| = |A| + |B| - |A n B|
 
 For three sets: |A u B u C| = |A| + |B| + |C| - |A n N| - |B n C| - |A n C| + |A n B n C|
+
+A collection of sets is **mutually disjoint** if the intersection of any pairs of sets in the collection is empty.
+
+| A1 u A2 u...u An | = |A1| + |A2| +...+ |An|
+
+**Ex:** (33*4) - (18* n_choose_r(4,2)) + (11*n_choose_r(4,3)) -3

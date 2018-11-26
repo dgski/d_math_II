@@ -151,5 +151,16 @@ def find_common_235():
 
     return u
 
-for i in zip(*[["a","b"],[1,2]]):
-    print(i)
+def divisible_by(n,a,b,c):
+    u = 0
+    for i,j,k in zip(   gen_div_by(a,n),   \
+                        gen_div_by(b,n),   \
+                        gen_div_by(c,n)    ):
+        if i and j and k:   u += 1
+        if i and j:         u -= 1
+        if i and k:         u -= 1
+        if j and k:         u -= 1
+        if i:               u += 1
+        if j:               u += 1
+        if k:               u += 1
+    return u
